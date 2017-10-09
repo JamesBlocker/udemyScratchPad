@@ -1,20 +1,10 @@
-greet();
+function greet(whatToSay) {
 
-function greet() {
-    console.log('hi');
+    return function (name) {
+        console.log(whatToSay + ' ' + name)
+    }
+
 }
 
-var anonymousGreet = function () {
-
-    console.log('hi');
-}
-
-anonymousGreet();
-
-function log(a) {
-    a();
-}
-
-log(function () {
-    console.log('hi')
-});
+var sayHi = greet('Hi');
+sayHi('Tony');
