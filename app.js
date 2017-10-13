@@ -1,49 +1,39 @@
-function buildFunctions() {
-
-    var arr = [];
-
-    for (var i = 0; i < 3; i++) {
-
-        arr.push(
-            function () {
-                console.log(i);
-            }
-        )
-
+var person = {
+    firstname: "John",
+    lastname: "Doe",
+    getFullName: function() {
+        var fullname =  this.firstname + " " + this.lastname;
+        return fullname;
     }
-
-    return arr;
-
 }
 
-var fs = buildFunctions();
-
-fs[0]();
-fs[1]();
-fs[2]();
-
-
-function buildFunctions2() {
-
-    var arr = [];
-
-    for (var i = 0; i < 3; i++) {
-        arr.push(
-            (function(j) {
-                return function () {
-                    console.log(j);
-                }
-            }(i))
-        )
-
-    }
-
-    return arr;
-
+var logName = function(lang1, lang2) {
+    console.log('logged: ' + this.getFullName());
+    console.log('Arguments: ' + lang1 + ' ' + lang2);
+    console.log('-----------------');
 }
 
-var fs2 = buildFunctions2();
+var logPersonName = logName.bind(person);
 
-fs2[0]();
-fs2[1]();
-fs2[2]();
+logPersonName('en', 'es');
+
+logName.call(person, 'fr', 'es');
+logName.apply(person, ['en', 'ch']);
+
+
+
+//function borrowing
+var person2 = {
+    firstname: "Jane",
+    lastname: "Doe",
+}
+
+console.log(person.getFullName.apply(person2));
+
+//function currying
+function multiply(a,b) {
+    return a * b;
+}
+
+var multipleByTwo = multiply.bind(this, 2);
+console.log(multipleByTwo(10));
