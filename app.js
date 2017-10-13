@@ -1,39 +1,42 @@
-var person = {
-    firstname: "John",
-    lastname: "Doe",
-    getFullName: function() {
-        var fullname =  this.firstname + " " + this.lastname;
-        return fullname;
-    }
+//functional programming
+function mapForEach(arr, fn) {
+
+    var newArr = [];
+    for (var i=0; i < arr.length; i++) {
+        newArr.push(
+            fn(arr[i])
+        )
+    };
+
+    return newArr;
+
 }
 
-var logName = function(lang1, lang2) {
-    console.log('logged: ' + this.getFullName());
-    console.log('Arguments: ' + lang1 + ' ' + lang2);
-    console.log('-----------------');
+var arr1 = [1,2,3];
+console.log(arr1);
+
+var arr2 = mapForEach(arr1, function(item) {
+    return item * 2;
+});
+console.log(arr2);
+
+var arr3 = mapForEach(arr1, function(item) {
+   return item > 2;
+});
+
+console.log(arr3);
+
+var checkPastLimit = function (limiter, item) {
+    return item > limiter;
 }
+arr4 = mapForEach(arr1, checkPastLimit.bind(this, 1));
+console.log(arr4);
 
-var logPersonName = logName.bind(person);
+var checkPastLimitSimplified = function (limiter) {
+    return function (limiter, item) {
+        return item > limiter;
+    }.bind(this, limiter);
+};
 
-logPersonName('en', 'es');
-
-logName.call(person, 'fr', 'es');
-logName.apply(person, ['en', 'ch']);
-
-
-
-//function borrowing
-var person2 = {
-    firstname: "Jane",
-    lastname: "Doe",
-}
-
-console.log(person.getFullName.apply(person2));
-
-//function currying
-function multiply(a,b) {
-    return a * b;
-}
-
-var multipleByTwo = multiply.bind(this, 2);
-console.log(multipleByTwo(10));
+var arr5 = mapForEach(arr1, checkPastLimitSimplified(1));
+console.log(arr5);
